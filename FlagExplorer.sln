@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{7F68
 		app.py = app.py
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlagExplorer.Api.Tests", "FlagExplorer.Api.Tests\FlagExplorer.Api.Tests.csproj", "{B0ED5AAA-9FB2-40FE-857C-4D69FFC98D17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,12 +24,17 @@ Global
 		{1F4854BD-9565-4F2D-8664-023282A53CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F4854BD-9565-4F2D-8664-023282A53CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F4854BD-9565-4F2D-8664-023282A53CBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0ED5AAA-9FB2-40FE-857C-4D69FFC98D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0ED5AAA-9FB2-40FE-857C-4D69FFC98D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0ED5AAA-9FB2-40FE-857C-4D69FFC98D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0ED5AAA-9FB2-40FE-857C-4D69FFC98D17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1F4854BD-9565-4F2D-8664-023282A53CBE} = {4054D1C0-54A0-4588-B834-B6F44B54C076}
+		{B0ED5AAA-9FB2-40FE-857C-4D69FFC98D17} = {4054D1C0-54A0-4588-B834-B6F44B54C076}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AC7D437-FFAA-46E9-BDE7-2700E8823D5A}
