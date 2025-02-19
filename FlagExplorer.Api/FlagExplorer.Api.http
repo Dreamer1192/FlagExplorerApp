@@ -1,0 +1,6 @@
+@FlagExplorer.Api_HostAddress = http://localhost:5287
+
+GET {{FlagExplorer.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
