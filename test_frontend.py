@@ -95,3 +95,7 @@ def test_country_detail_not_found_integration(monkeypatch, client):
     monkeypatch.setattr(requests, "get", fake_requests_get_by_name)
     response = client.get("/country/NonExistent")
     assert response.status_code == 404
+
+if __name__ == '__main__':
+    import pytest
+    pytest.main()

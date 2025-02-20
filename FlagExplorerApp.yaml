@@ -1,0 +1,80 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-backend:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Restore .NET Dependencies
+        run: dotnet restore FlagExplorer.Api/FlagExplorer.Api.sln
+
+      - name: Build .NET Solution
+        run: dotnet build FlagExplorer.Api/FlagExplorer.Api.sln --configuration Release --no-restore
+
+      - name: Run Backend Tests
+        run: dotnet test FlagExplorer.Api.Tests/FlagExplorer.Api.Tests.sln --no-restore --verbosity normal
+
+      - name: Publish Backend
+        run: dotnet publish FlagExplorer.Api/FlagExplorer.Api.csproj --configuration Release --output publish
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Frontend Tests
+        run: pytest --maxfail=1 --disable-warnings -q
+
+      - name: Package Frontend
+        run: zip -r frontend.zip app.py templates
+
+  package-all:
+    needs: [build-backend, build-frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Prepare Deployment Package Directory
+        run: mkdir -p package/backend package/frontend
+
+      - name: Copy Backend Publish Artifacts
+        run: |
+          # Assuming the published backend artifacts are in the "publish" folder
+          cp -r FlagExplorer.Api/publish/* package/backend/
+
+      - name: Copy Frontend Package
+        run: |
+          cp frontend.zip package/frontend/
+
+      - name: Archive Deployment Package
+        run: zip -r deployment_package.zip package
+
+      - name: Upload Deployment Package Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: deployment-package
+          path: deployment_package.zip

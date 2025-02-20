@@ -1,5 +1,6 @@
-import logging
 from flask import Flask, render_template, abort, url_for
+from werkzeug.exceptions import HTTPException
+import logging
 import requests
 
 # Configure logging
@@ -54,6 +55,9 @@ def country_detail(country_name):
         if not country:
             abort(404)
         return render_template("detail.html", country=country)
+    except HTTPException as http_exc:
+        # Re-raise HTTP exceptions so that Flask handles them (e.g., 404 errors)
+        raise http_exc
     except Exception as e:
         logger.exception("Error in country_detail route for country: %s", country_name)
         return "An error occurred while fetching country details.", 500
@@ -63,4 +67,3 @@ if __name__ == '__main__':
         app.run(debug=True, port=5001, use_reloader=False)
     except Exception as e:
         logger.exception("Error starting Flask app.")
-
