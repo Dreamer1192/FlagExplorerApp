@@ -32,8 +32,14 @@ namespace FlagExplorer.Api
             // Ensure the in-memory database is created and seeded.
             using (var scope = app.Services.CreateScope())
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService<CountryContext>();
-                dbContext.Database.EnsureCreated();
+                var services = scope.ServiceProvider;
+                var dbContext = services.GetRequiredService<CountryContext>();
+
+                // Create an HttpClient instance to call the external API.
+                using var httpClient = new HttpClient();
+
+                // Block on seeding. (In a production app, consider making Main async.)
+                DbInitializer.SeedCountriesAsync(dbContext, httpClient).GetAwaiter().GetResult();
             }
 
             // Configure the HTTP request pipeline.

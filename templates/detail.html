@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ country.name }} - Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-4">
+        <a href="{{ url_for('home') }}" class="btn btn-secondary mb-3">&larr; Back to Home</a>
+        <h1 class="mb-4">{{ country.name }}</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ country.flag }}" alt="{{ country.name }}" class="img-fluid mb-3">
+            </div>
+            <div class="col-md-6">
+                <h3>Country Details</h3>
+                <p><strong>Population:</strong> {{ country.population }}</p>
+                <p><strong>Capital:</strong> {{ country.capital }}</p>
+                <!-- Add more details if your API provides them -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
