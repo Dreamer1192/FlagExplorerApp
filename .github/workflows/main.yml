@@ -32,7 +32,14 @@ jobs:
 
       # 4) Publish the main project from FlagExplorer.Api
       - name: Publish Backend
-        run: dotnet publish FlagExplorer.Api/FlagExplorer.Api.csproj --configuration Release --output publish
+        run: dotnet publish FlagExplorer.Api/FlagExplorer.Api.csproj --configuration Release --output FlagExplorer.Api/publish
+
+      # 5) Upload the published backend files
+      - name: Upload Backend Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-publish
+          path: FlagExplorer.Api/publish/
 
   build-frontend:
     runs-on: ubuntu-latest
@@ -55,17 +62,35 @@ jobs:
       - name: Package Frontend
         run: zip -r frontend.zip app.py templates
 
+      # Upload frontend artifact
+      - name: Upload Frontend Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-package
+          path: frontend.zip
+
   package-all:
     needs: [build-backend, build-frontend]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
+      # Download backend publish artifact
+      - name: Download Backend Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-publish
+          path: package/backend
+
+      # Download frontend artifact
+      - name: Download Frontend Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-package
+          path: package/frontend
+
       - name: Prepare Deployment Package
         run: |
-          mkdir -p package/backend package/frontend
-          cp -r FlagExplorer.Api/publish/* package/backend/
-          cp frontend.zip package/frontend/
           zip -r deployment_package.zip package
 
       - name: Upload Deployment Package Artifact
