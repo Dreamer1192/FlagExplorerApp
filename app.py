@@ -40,7 +40,7 @@ def home():
     try:
         # Fetch all countries from the backend API.
         countries = get_all_countries()
-        # Sort countries by name (assuming the backend returns a property "name")
+        # Sort countries by name
         countries_sorted = sorted(countries, key=lambda c: c.get("name", ""))
         return render_template("home.html", countries=countries_sorted)
     except Exception as e:

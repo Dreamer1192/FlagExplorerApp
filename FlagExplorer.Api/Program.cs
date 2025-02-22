@@ -38,7 +38,7 @@ namespace FlagExplorer.Api
                 // Create an HttpClient instance to call the external API.
                 using var httpClient = new HttpClient();
 
-                // Block on seeding. (In a production app, consider making Main async.)
+                // Block on seeding
                 DbInitializer.SeedCountriesAsync(dbContext, httpClient).GetAwaiter().GetResult();
             }
 
